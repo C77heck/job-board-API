@@ -10,8 +10,10 @@ $user = new JobSeeker($conn);
 
 $data = json_decode(file_get_contents("php://input"));
 
+
 if ($user->register($data)) {
-    print_r('Registration successful');
+
+    echo   json_encode(["message" => "Succesful registration"]);
 } else {
-    print_r('Registration unsuccessful');
+    echo  json_encode(["message" => "Unsuccesful registration"]);
 }

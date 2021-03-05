@@ -7,9 +7,10 @@
  */
 
 //HEADERS
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, PATCH, PUT, DELETE');
+header("Access-Control-Allow-Origin: http://localhost:3000");
 header('Content-Type: application/json');
-header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type, Access-Control-Allow-Methods, Authorization X-Requested-With');
+header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization X-Requested-With, Accept');
 /*  content type restriction, CORS policy, XSS, ... etc*/
 
 // dynamically require files

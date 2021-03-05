@@ -95,20 +95,32 @@ class JobSeeker
     {
         // sql query
         $sql = "INSERT INTO jobseeker
-        (username, password, email)
-        VALUES (:username, :password, :email)";
+        (username, password, email, city, hint, answer, first_name, last_name)
+        VALUES (:username, :password, :email, :city, :hint, :answer, :first_name, :last_name)";
         // prepare statement
         $stmt = $this->conn->prepare($sql);
 
         // Sanitize data
         $this->username = htmlspecialchars(strip_tags($data->username));
         $this->email = htmlspecialchars(strip_tags($data->email));
+        $this->city = htmlspecialchars(strip_tags($data->city));
+        $this->hint = htmlspecialchars(strip_tags($data->hint));
+        $this->answer = htmlspecialchars(strip_tags($data->answer));
+        $this->first_name = htmlspecialchars(strip_tags($data->first_name));
+        $this->last_name = htmlspecialchars(strip_tags($data->last_name));
         // hash password
         $hashedPassword = password_hash(htmlspecialchars(strip_tags($data->password)), PASSWORD_DEFAULT);
         // bind values
         $stmt->bindValue(':username', $this->username, PDO::PARAM_STR);
         $stmt->bindValue(':password', $hashedPassword, PDO::PARAM_STR);
         $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
+        $stmt->bindValue(':city', $this->city, PDO::PARAM_STR);
+        $stmt->bindValue(':hint', $this->hint, PDO::PARAM_STR);
+        $stmt->bindValue(':answer', $this->answer, PDO::PARAM_STR);
+        $stmt->bindValue(':first_name', $this->first_name, PDO::PARAM_STR);
+        $stmt->bindValue(':last_name', $this->last_name, PDO::PARAM_STR);
+
+
         if ($stmt->execute()) {
             // get the id of the newly created row
             $this->id = $this->conn->lastInsertId();
