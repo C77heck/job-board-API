@@ -3,17 +3,23 @@
 require '../../includes/init.php';
 $conn = require '../../includes/db.php';
 
-// Additional headers
-header('Access-Control-Allow-Methods: POST');
 
 $user = new JobSeeker($conn);
 
+// we get the data from the body
 $data = json_decode(file_get_contents("php://input"));
 
+//we send to the front either the success message or the exception thrown
 
-if ($user->register($data)) {
-
-    echo   json_encode(["message" => "Succesful registration"]);
-} else {
-    echo  json_encode(["message" => "Unsuccesful registration"]);
+/* we throw an exception if the registration fails but it is not handlend as execption
+on the frontend so there's extra logic there to turn it into one...
+*/
+try {
+    echo $user->register($data);
+} catch (Exception $e) {
+    $message = $e->getMessage();
+    echo json_encode([
+        "message" => "$message",
+        "statusCode" => 500
+    ]);
 }

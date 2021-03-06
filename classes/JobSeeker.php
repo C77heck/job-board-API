@@ -42,6 +42,7 @@ class JobSeeker
      */
     public static function authenticate($conn, $username, $password)
     {
+
         $sql = "SELECT * 
         FROM jobseeker
         WHERE username = :username";
@@ -54,8 +55,9 @@ class JobSeeker
         // execute
         $stmt->execute();
         // compare passwords
-        if ($user = $stmt->fetch()) {
-            return password_verify($password, $user->password);
+        $user = $stmt->fetch();
+        if (password_verify($password, $user->password)) {
+            return json_encode(["message" => "Succesful login", "statusCode" => "201"]);
         }
     }
 
@@ -93,6 +95,7 @@ class JobSeeker
      */
     public function register($data)
     {
+
         // sql query
         $sql = "INSERT INTO jobseeker
         (username, password, email, city, hint, answer, first_name, last_name)
@@ -121,12 +124,12 @@ class JobSeeker
         $stmt->bindValue(':last_name', $this->last_name, PDO::PARAM_STR);
 
 
+
+
+
         if ($stmt->execute()) {
-            // get the id of the newly created row
             $this->id = $this->conn->lastInsertId();
-            return true;
-        } else {
-            return false;
+            return json_encode(["message" => "Succesful registration", "statusCode" => "201"]);
         }
     }
 
