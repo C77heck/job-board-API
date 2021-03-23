@@ -17,14 +17,15 @@ if ($num > 0) {
     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
 
-        $job_item = array(
+        $job_item = [
             'id' => $id,
             'job_title' => $job_title,
+            'location' => $location,
             'content' => $content,
             'company_name' => $company_name,
             'salary' => $salary,
             'submitted_at' => $submitted_at
-        );
+        ];
         //Push to 'data'
         array_push($job_arr['ads'], $job_item);
     }

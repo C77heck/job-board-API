@@ -10,7 +10,7 @@ class Job
     // DB stuff
     private $conn; // connection credentials
     private $table = 'adverts'; // table name we work from
-  
+
 
     public $id; //@var integer
     public $job_title; //@var string
@@ -63,13 +63,21 @@ class Job
         // execute
         $stmt->execute();
 
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($stmt->execute()) {
+            $ad =  $stmt->fetch();
+            // we assign values to the class so that we can return the class itself
+            $this->job_title = $ad['job_title'];
+            $this->content = $ad['content'];
+            $this->salary = $ad['salary'];
+            $this->company_name = $ad['company_name'];
+            $this->submitted_at = $ad['submitted_at'];
+            $this->location = $ad['location'];
 
-        $this->job_title = $row['job_title'];
-        $this->content = $row['content'];
-        $this->salary = $row['salary'];
-        $this->company_name = $row['company_name'];
-        $this->submitted_at = $row['submitted_at'];
+            return true;
+        }
+        return false;
+
+
         /* we need to bind the class values to the returned values in order to be
         able to use them. */
     }

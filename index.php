@@ -10,7 +10,7 @@ $db = $database->connect();
 $job = new Job($db);
 
 // Job ad query
-$result = $job->getAdById();
+$result = $job->getAds();
 // Check if there's any ads in the database
 $num = $result->rowCount();
 

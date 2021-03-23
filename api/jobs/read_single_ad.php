@@ -12,11 +12,18 @@ $job = new Job($db);
 $job = new Job($db);
 
 // get ID
-$job->id = isset($_GET['id']) ? $_GET['id'] : die();
+if (isset($_GET['id'])) {
+    $job->id = $_GET['id'];
+} else {
+    echo json_encode(["message" => "id is not valid or not supplied"]);
+    die();
+}
 
 // Get job ad
-$job->getAdById();
 
-
-// json conversion
-echo json_encode($job);
+// json conversion if execution succeeds
+if ($job->getAdById()) {
+    echo json_encode($job);
+} else {
+    echo json_encode(["message" => "item not found in database"]);
+}
